@@ -272,6 +272,8 @@
             this.btncrtoem.TabIndex = 5;
             this.btncrtoem.Text = "Create Oem.dat";
             this.btncrtoem.UseVisualStyleBackColor = true;
+            this.btncrtoem.Click += new System.EventHandler(this.btncrtoem_Click);
+
             // 
             // mainwindow
             // 

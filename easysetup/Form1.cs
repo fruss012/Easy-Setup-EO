@@ -387,6 +387,63 @@ namespace easysetup
             writer.Write(new byte[length - bytes.Length]);
         }
 
+        private void btncrtoem_Click(object sender, EventArgs e)
+        {
+            // Retrieve values from the textboxes.
+            string serverName = txtServerName.Text.Trim();
+            string serverIP = txtServerIP.Text.Trim();
+            string loginPort = txtloginport.Text.Trim();
+
+            if (string.IsNullOrEmpty(serverName) || string.IsNullOrEmpty(serverIP) || string.IsNullOrEmpty(loginPort))
+            {
+                MessageBox.Show("Please ensure Server Name, Server IP, and Login Port are filled.",
+                                "Missing Data", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            // Build the IP:Port string.
+            string ipPort = serverIP + ":" + loginPort;
+
+            // Construct the content for oem.dat.
+            StringBuilder sb = new StringBuilder();
+            sb.AppendLine("[Oem]");
+            sb.AppendLine("Id=2010");
+            sb.AppendLine();
+            sb.AppendLine("[AccountSetup]");
+            sb.AppendLine("Type=1");
+            sb.AppendLine();
+            sb.AppendLine("[ServerInfo]");
+            sb.AppendLine("URL=null");
+            sb.AppendLine();
+            sb.AppendLine("[ServerStatus]");
+            sb.AppendLine("Link=null");
+            sb.AppendLine();
+            sb.AppendLine("[Header]");
+            sb.AppendLine("GroupAmount=1");
+            sb.AppendLine("Group1=" + serverName);
+            sb.AppendLine();
+            sb.AppendLine("[Group1]");
+            sb.AppendLine("ServerAmount=1");
+            sb.AppendLine();
+            sb.AppendLine("Server1=" + serverName);
+            sb.AppendLine("Ip1=" + ipPort);
+            sb.AppendLine("Pic1=Server1");
+            sb.AppendLine("ServerName1=" + serverName);
+
+            // Write the content to oem.dat in the application's startup directory.
+            string oemDatPath = Path.Combine(Application.StartupPath, "oem.dat");
+            File.WriteAllText(oemDatPath, sb.ToString());
+
+            MessageBox.Show("Oem.dat file created successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
+
+
+
         #endregion
     }
+
+
+
+
+
 }
