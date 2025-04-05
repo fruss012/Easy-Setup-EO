@@ -242,7 +242,7 @@ namespace easysetup
             UpdateFileKey(shellIniPath, new string[] { "PASSWORD" }, newDBPass);
 
             // --- Other Conversions ---
-            ConvertShellIniToDat();
+            ConvertShellIniToDat(newDBUser, newDBPass);
             UpdatePortDat(newMsgPort);
 
             MessageBox.Show("Server and Database configuration updated and files converted successfully!",
@@ -343,13 +343,13 @@ namespace easysetup
 
         // Convert shell.ini to shell.dat using the provided method.
         // The account port is taken from the NPC port textbox.
-        private void ConvertShellIniToDat()
+        private void ConvertShellIniToDat(string LoginName, string PassWord)
         {
             string datFilePath = Path.Combine(Application.StartupPath, "GameServer", "shell.dat");
             string accountIp = txtServerIP.Text.Trim();
             string serverName = txtServerName.Text.Trim();
-            string loginName = "test";  // Default value; adjust if needed.
-            string password = "test";   // Default value; adjust if needed.
+            string loginName = LoginName;
+            string password = PassWord;   
             int accountPort;
             if (!int.TryParse(txtnpcport.Text.Trim(), out accountPort))
             {
